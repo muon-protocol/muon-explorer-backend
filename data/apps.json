@@ -1,0 +1,44 @@
+[
+  {
+    "id": "twaper",
+    "name": "Twaper",
+    "fnames": ["twaper.js", "pair.js"],
+    "mostUsedMethod": "price",
+    "methods": [
+      {
+        "name": "price",
+        "args": [
+          {
+            "name": "config",
+            "type": "address"
+          }
+        ]
+      }
+    ],
+    "nodes": 15,
+    "startTime": 1678931913
+  },
+  {
+    "id": "tss",
+    "name": "TSS",
+    "fnames": ["tss-test.js"],
+    "mostUsedMethod": "test",
+    "methods": [
+      {
+        "name": "test",
+        "args": [
+          {
+            "name": "message",
+            "type": "str"
+          }
+        ]
+      },
+      {
+        "name": "data-change",
+        "args": []
+      }
+    ],
+    "nodes": 15,
+    "startTime": 1678931913
+  }
+]
