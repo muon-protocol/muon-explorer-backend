@@ -40,5 +40,112 @@
     ],
     "nodes": 15,
     "startTime": 1678931913
+  },
+  {
+    "id": "dibs",
+    "name": "dibs",
+    "fnames": ["dibs.js"],
+    "mostUsedMethod": "claim",
+    "methods": [
+      {
+        "name": "claim",
+        "args": [
+          {
+            "name": "user",
+            "type": "address"
+          },
+          {
+            "name": "token",
+            "type": "address"
+          },
+          {
+            "name": "time",
+            "type": "int"
+          },
+          {
+            "name": "sign",
+            "type": "str"
+          }
+        ]
+      },
+      {
+        "name": "lotteryWinner",
+        "args": [
+          {
+            "name": "roundId",
+            "type": "int"
+          }
+        ]
+      },
+      {
+        "name": "topLeaderBoardN",
+        "args": [
+          {
+            "name": "n",
+            "type": "int"
+          },
+          {
+            "name": "day",
+            "type": "int"
+          }
+        ]
+      }
+    ],
+    "nodes": 15,
+    "startTime": 1678931913
+  },
+  {
+    "id": "simple_oracle",
+    "name": "Simple Oracle",
+    "fnames": ["simple_oracle.js"],
+    "mostUsedMethod": "price",
+    "methods": [
+      {
+        "name": "eth-price",
+        "args": []
+      },
+      {
+        "name": "price",
+        "args": [
+          {
+            "name": "token",
+            "type": "str"
+          },
+          {
+            "name": "unit",
+            "type": "str"
+          }
+        ]
+      }
+    ],
+    "nodes": 15,
+    "startTime": 1678931913
+  },
+  {
+    "id": "v3_oracle",
+    "name": "V3 Oracle",
+    "fnames": ["v3_oracle.js"],
+    "mostUsedMethod": "signature",
+    "methods": [
+      {
+        "name": "signature",
+        "args": [
+          {
+            "name": "positionIds",
+            "type": "str"
+          },
+          {
+            "name": "bidPrices",
+            "type": "str"
+          },
+          {
+            "name": "askPrices",
+            "type": "str"
+          }
+        ]
+      }
+    ],
+    "nodes": 15,
+    "startTime": 1678931913
   }
 ]

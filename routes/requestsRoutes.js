@@ -58,8 +58,6 @@ router.get('/', async (req, res) => {
     })
 })
 
-
-
 router.get('/history', async (req, res) => {
 
     let { range = 21, app = '' } = req.query
@@ -90,6 +88,26 @@ router.get('/history', async (req, res) => {
     res.status(200).send({
         status: 200,
         history: reversedHistory,
+    })
+})
+
+router.get('/:id', async (req, res) => {
+
+    let { id } = req.params
+
+    const requestFound = await db.collection('requests').findOne({ _id: id })
+
+    if (!requestFound) {
+        res.status(404).send({
+            status: 404,
+            message: 'request not found'
+        })
+        return
+    }
+
+    res.status(200).send({
+        status: 200,
+        request: requestFound
     })
 })
 

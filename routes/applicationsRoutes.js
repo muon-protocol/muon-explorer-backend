@@ -73,10 +73,15 @@ router.get('/:id', async (req, res) => {
     application.confirmed_requests = count
 
     let codes = []
-    
+
     try {
         application.fnames.forEach(item => {
-            const code = fs.readFileSync(path.resolve(__dirname, `functions/${item}`)).toString()
+            let directory = ''
+            const exist1 = fs.existsSync(path.resolve(__dirname, `apps/general/${item}`)) ? 'general' : ''
+            const exist2 = fs.existsSync(path.resolve(__dirname, `apps/general_test/${item}`)) ? 'general_test' : ''
+            const exist3 = fs.existsSync(path.resolve(__dirname, `apps/custom/${item}`)) ? 'custom' : ''
+            directory = exist1 || exist2 || exist3
+            const code = fs.readFileSync(path.resolve(__dirname, `apps/${directory}/${item}`)).toString()
             codes.push({ name: item, code })
         })
     }
