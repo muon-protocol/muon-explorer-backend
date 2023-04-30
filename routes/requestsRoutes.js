@@ -70,24 +70,34 @@ router.get('/history', async (req, res) => {
         .find({ app })
         .sort({ 'first_date': -1 })
         .limit(range * 24)
-        .project({ count: 1, _id: 0 })
-        .map(i => i.count)
+        .project({ count: 1, _id: 0, first_date: 1 })
         .toArray()
 
-    let filledHistory = history
+    let newHistory = [...history].reverse()
 
-    if (filledHistory.length < (range * 24)) {
-        const remaining = (range * 24) - filledHistory.length
-        Array(remaining).fill(0).forEach(item => {
-            filledHistory.push(item)
+    if (history.length) {
+        const lastHistory = history[0]
+        const diff = ((new Date().getTime()) - (new Date(lastHistory.first_date).getTime() * 1000)) / 36e5
+        if (diff > 1) {
+            const hours = Math.floor(diff)
+            Array(hours).fill('').forEach(() => {
+                newHistory.push({ count: 0 })
+            })
+        }
+    }
+
+    let updatedHistory = newHistory.map(i => i.count).slice(-(range * 24))
+
+    if (updatedHistory.length < (range * 24)) {
+        const remaining = (range * 24) - updatedHistory.length
+        Array(remaining).fill(0).forEach(() => {
+            updatedHistory.unshift(0)
         })
     }
 
-    const reversedHistory = [...filledHistory].reverse()
-
     res.status(200).send({
         status: 200,
-        history: reversedHistory,
+        history: updatedHistory,
     })
 })
 
