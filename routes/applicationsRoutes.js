@@ -14,29 +14,28 @@ router.get('/', async (req, res) => {
     limit = parseInt(limit) || 10
     const skip = limit * (page - 1);
 
-    const col = db.collection('requests')
+    const col = db.collection('applications')
 
-    const apps = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'data/apps.json')))
+    const projections = { data: 0 }
+
+    const query = { $or: [{ id: { $regex: search.toLowerCase() } }] }
 
     let applications = []
     let total = 0
 
-    if (search) {
-        applications = apps
-            .filter(i => i.name.toLowerCase().includes(search.toLowerCase()))
-            .slice(skip, skip + limit)
+    applications = await col
+        .find(search ? query : {})
+        .limit(limit)
+        .skip(skip)
+        .project(projections)
+        .toArray()
 
-        total = apps.filter(i => i.name.toLowerCase().includes(search.toLowerCase())).length
-    }
-    else {
-        applications = apps.slice(skip, skip + limit)
-        total = apps.length
-    }
+    total = await col.countDocuments(search ? query : {})
 
-    const joinPromises = applications.map(async item => {
+    const joinPromises = applications.map(async app => {
         const promise = new Promise(async resolve => {
-            const count = await col.countDocuments({ app: item.id, confirmed: true })
-            resolve({ ...item, confirmed_requests: count })
+            const count = await db.collection('requests').countDocuments({ app: app.id, confirmed: true })
+            resolve({ ...app, confirmed_requests: count })
         })
         return promise
     });
@@ -56,9 +55,7 @@ router.get('/:id', async (req, res) => {
 
     let { id } = req.params
 
-    const apps = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'data/apps.json')))
-
-    const application = apps.find(i => i.id === id)
+    const application = await db.collection('applications').findOne({ id })
 
     if (!application) {
         res.status(404).send({

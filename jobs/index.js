@@ -7,6 +7,11 @@ export const initBreeInstance = () => {
                 name: 'updateRequestsHistory',
                 timeout: 0,
                 interval: '1h'
+            },
+            {
+                name: 'updateApplications',
+                timeout: 0,
+                interval: '1h'
             }
         ]
     });

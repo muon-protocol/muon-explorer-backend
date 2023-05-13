@@ -69,7 +69,7 @@ router.get('/history', async (req, res) => {
     history = await db.collection('requests_history')
         .find({ app })
         .sort({ 'first_date': -1 })
-        .limit(range * 24)
+        .limit((range * 24) + 1)
         .project({ count: 1, _id: 0, first_date: 1 })
         .toArray()
 
@@ -86,7 +86,7 @@ router.get('/history', async (req, res) => {
         }
     }
 
-    let updatedHistory = newHistory.map(i => i.count).slice(-(range * 24))
+    let updatedHistory = newHistory.map(i => i.count).slice(0, -1).slice(-(range * 24))
 
     if (updatedHistory.length < (range * 24)) {
         const remaining = (range * 24) - updatedHistory.length

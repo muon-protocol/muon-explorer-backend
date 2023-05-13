@@ -31,8 +31,6 @@ morgan('combined', {
     skip: function (req, res) { return res.statusCode < 400 }
 })
 
-const PORT = process.env.PORT || 8004
-
 // // custom 404
 // app.use((req, res, next) => {
 //     res.status(404).send("Sorry can't find that!")
@@ -43,6 +41,8 @@ const PORT = process.env.PORT || 8004
 //     console.error(err.stack)
 //     res.status(500).send('Something broke!')
 // })
+
+const PORT = process.env.PORT || 8004
 
 app.listen(PORT, () => {
     console.log("Server is running on port", PORT)
