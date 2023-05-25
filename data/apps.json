@@ -12,11 +12,16 @@
             "name": "config",
             "type": "address"
           }
+        ],
+        "examples": [
+          {
+            "title": "INV token price",
+            "desc": "Using this conig contract, the INV token time weighted average price can be loaded from routes on Sushiswap and Uniswap.",
+            "args": { "config": "0xb0894bd0c703EF3ee0c1E3054cABfA288762838c" }
+          }
         ]
       }
-    ],
-    "nodes": 15,
-    "startTime": 1678931913
+    ]
   },
   {
     "id": "tss",
@@ -31,15 +36,20 @@
             "name": "message",
             "type": "str"
           }
+        ],
+        "examples": [
+          {
+            "title": "Sign a hello world message",
+            "desc": "This method signs the given message using the threshold signature scheme.",
+            "args": { "message": "hello world" }
+          }
         ]
       },
       {
         "name": "data-change",
         "args": []
       }
-    ],
-    "nodes": 15,
-    "startTime": 1678931913
+    ]
   },
   {
     "id": "dibs",
@@ -75,6 +85,13 @@
             "name": "roundId",
             "type": "int"
           }
+        ],
+        "examples": [
+          {
+            "title": "Query the winner of 8th round",
+            "desc": "This queries the winner of the Dibs Lottery winner of the 8th round.",
+            "args": { "roundId": 8 }
+          }
         ]
       },
       {
@@ -90,9 +107,7 @@
           }
         ]
       }
-    ],
-    "nodes": 15,
-    "startTime": 1678931913
+    ]
   },
   {
     "id": "simple_oracle",
@@ -115,11 +130,16 @@
             "name": "unit",
             "type": "str"
           }
+        ],
+        "examples": [
+          {
+            "title": "BTC/USD price",
+            "desc": "This loads BTC price in USD from coinbase api.",
+            "args": { "token": "btc", "unit": "USD" }
+          }
         ]
       }
-    ],
-    "nodes": 15,
-    "startTime": 1678931913
+    ]
   },
   {
     "id": "v3_oracle",
@@ -144,8 +164,6 @@
           }
         ]
       }
-    ],
-    "nodes": 15,
-    "startTime": 1678931913
+    ]
   }
 ]

@@ -65,10 +65,6 @@ router.get('/:id', async (req, res) => {
         return
     }
 
-    const count = await db.collection('requests').countDocuments({ app: application.id, confirmed: true })
-
-    application.confirmed_requests = count
-
     let codes = []
 
     try {
