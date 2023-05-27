@@ -16,8 +16,6 @@ router.get('/', async (req, res) => {
 
     const col = db.collection('applications')
 
-    const projections = { data: 0 }
-
     const query = { $or: [{ id: { $regex: search.toLowerCase() } }] }
 
     let applications = []
@@ -27,7 +25,6 @@ router.get('/', async (req, res) => {
         .find(search ? query : {})
         .limit(limit)
         .skip(skip)
-        .project(projections)
         .toArray()
 
     total = await col.countDocuments(search ? query : {})

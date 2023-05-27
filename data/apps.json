@@ -162,6 +162,13 @@
             "name": "askPrices",
             "type": "str"
           }
+        ],
+        "examples": [
+          {
+            "title": "Get prices for a positionId",
+            "desc": "This get bid and ask prices for positionId 20",
+            "args": { "positionIds": "[20]" }
+          }
         ]
       }
     ]

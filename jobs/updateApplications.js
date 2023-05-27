@@ -32,7 +32,10 @@ if (parentPort) {
             try {
                 const { data } = await axios.get(`https://alice.muon.net/v1/?app=explorer&method=app&params[appName]=${app.id}`)
                 if (data?.success) {
-                    await db.collection('applications').findOneAndUpdate({ id: app.id }, { '$set': { data: data.result } })
+                    const { contexts, ...other } = data.result
+                    const lastContext = contexts?.at(-1)
+                    const values = { ...other, context: lastContext }
+                    await db.collection('applications').findOneAndUpdate({ id: app.id }, { '$set': { data: values } })
                     resolve()
                 }
             }
