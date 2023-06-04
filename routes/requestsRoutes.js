@@ -115,7 +115,7 @@ router.get('/history', async (req, res) => {
 
     res.status(200).send({
         status: 200,
-        history: updatedHistory,
+        history: reversedHistory.reverse(),
     })
 })
 
