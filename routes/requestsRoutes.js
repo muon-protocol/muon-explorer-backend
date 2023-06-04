@@ -64,34 +64,52 @@ router.get('/history', async (req, res) => {
 
     range = parseInt(range) || 21
 
-    let history = []
+    let history = [] // history with desc order
 
     history = await db.collection('requests_history')
         .find({ app })
         .sort({ 'first_date': -1 })
-        .limit((range * 24) + 1)
+        .limit(range * 24)
         .project({ count: 1, _id: 0, first_date: 1 })
         .toArray()
 
-    let newHistory = [...history].reverse()
+    let newHistory = []
 
     if (history.length) {
-        const lastHistory = history[0]
-        const diff = ((new Date().getTime()) - (new Date(lastHistory.first_date).getTime() * 1000)) / 36e5
+        let first_item = null
+        let second_item = null
+        newHistory.push(history[0])
+        history.forEach((item, index) => {
+            first_item = item
+            second_item = history[index + 1]
+            if (second_item) {
+                const diff = ((new Date(first_item.first_date).getTime() * 1000) - (new Date(second_item.first_date).getTime() * 1000)) / 36e5
+                if (diff > 1.9) {
+                    const hours = Math.floor(diff)
+                    Array(hours).fill('').forEach(() => {
+                        newHistory.push({ count: 0 })
+                    })
+                }
+                newHistory.push(second_item)
+            }
+        })
+
+        const lastHistory = newHistory[0].first_date
+        const diff = ((new Date().getTime()) - (new Date(lastHistory).getTime() * 1000)) / 36e5
         if (diff > 1) {
             const hours = Math.floor(diff)
             Array(hours).fill('').forEach(() => {
-                newHistory.push({ count: 0 })
+                newHistory.unshift({ count: 0 })
             })
         }
     }
 
-    let updatedHistory = newHistory.map(i => i.count).slice(0, -1).slice(-(range * 24))
+    let updatedHistory = newHistory.map(i => i.count).slice(1).slice(-(range * 24))
 
     if (updatedHistory.length < (range * 24)) {
         const remaining = (range * 24) - updatedHistory.length
         Array(remaining).fill(0).forEach(() => {
-            updatedHistory.unshift(0)
+            updatedHistory.push(0)
         })
     }
 
