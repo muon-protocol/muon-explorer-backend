@@ -18,10 +18,10 @@ app.use(helmet())
 app.use(cors())
 app.disable('x-powered-by')
 
-app.use('/applications', applicationsRoutes)
-app.use('/requests', requestRoutes)
+app.use('/api/v1/applications', applicationsRoutes)
+app.use('/api/v1/requests', requestRoutes)
 
-app.get("/", (req, res) => {
+app.get("/api/v1", (req, res) => {
     res.status(200).json({ message: "Muon Explorer V1" });
 });
 
@@ -31,33 +31,33 @@ morgan('combined', {
     skip: function (req, res) { return res.statusCode < 400 }
 })
 
-// // custom 404
-// app.use((req, res, next) => {
-//     res.status(404).send("Sorry can't find that!")
-// })
+// custom 404
+app.use((req, res, next) => {
+    res.status(404).send("Sorry can't find that!")
+})
 
-// // custom error handler
-// app.use((err, req, res, next) => {
-//     console.error(err.stack)
-//     res.status(500).send('Something broke!')
-// })
+// custom error handler
+app.use((err, req, res, next) => {
+    console.error(err.stack)
+    res.status(500).send('Something broke!')
+})
 
 const PORT = process.env.PORT || 8004
 
-app.listen(PORT, () => {
-    console.log("Server is running on port", PORT)
+const server = app.listen(PORT, () => {
+    console.log("Server is running on port: ", PORT)
 })
 
-// process.on('uncaughtException', err => {
-//     console.log(`Error: ${err.stack}`);
-//     console.log('Shutting down due to uncaught exception');
-//     process.exit(1)
-// })
+process.on('uncaughtException', err => {
+    console.log(`Error: ${err.stack}`);
+    console.log('Shutting down due to uncaught exception');
+    process.exit(1)
+})
 
-// process.on('unhandledRejection', err => {
-//     console.log(`Error: ${err.stack}`)
-//     console.log(`Shutting down the server due to unhandled Promise rejection`)
-//     server.close(() => {
-//         process.exit(1)
-//     })
-// })
+process.on('unhandledRejection', err => {
+    console.log(`Error: ${err.stack}`)
+    console.log(`Shutting down the server due to unhandled Promise rejection`)
+    server.close(() => {
+        process.exit(1)
+    })
+})

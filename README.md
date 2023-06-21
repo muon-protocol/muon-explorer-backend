@@ -13,6 +13,7 @@ Before proceeding with the installation of the Muon Explorer Backend, please ens
 You can install and use [nvm](https://github.com/nvm-sh/nvm) to install above prerequisites using the following commands:
 ```bash
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+source ~/.bashrc
 nvm install --lts
 nvm use --lts
 npm install npm@latest -g
@@ -21,7 +22,7 @@ npm  install pm2@latest -g
 
 After having the prerequisites installed, the Muon Explorer Backend can be cloned and installed using the following commands:
 ```bash
-git clone https://github.com/KMMRCap/Muon-Explorer-Backend.git
+git clone https://github.com/muon-protocol/Muon-Explorer-Backend.git
 cd Muon-Explorer-Backend
 npm i
 ```
@@ -34,12 +35,12 @@ pm2 start npm --name back_muon -- run start -- -p 8004
 To interact with the Muon Explorer Backend, you can make requests to the following endpoints:
 
 #### 1. Get a Request by ID
-- Endpoint: `/requests/<id>`  
+- Endpoint: `/api/v1/requests/<id>`  
 - Description: Retrieve a specific request by its ID.  
 - Method: `GET`  
 
 #### 2. Get Requests with Pagination
-- Endpoint: `/requests?page={page}&limit={limit}`  
+- Endpoint: `/api/v1/requests?page={page}&limit={limit}`  
 - Description: Retrieve a list of requests with pagination support.  
 - Method: `GET`  
 - Parameters:  
@@ -47,7 +48,7 @@ To interact with the Muon Explorer Backend, you can make requests to the followi
   - `limit` (optional): The number of requests to retrieve per page.  
 
 #### 3. Get Request History
-- Endpoint: `/requests/history?range={days}&app={app}`
+- Endpoint: `/api/v1/requests/history?range={days}&app={app}`
 - Description: Retrieve number of requests within a specified time range for a specific application.
 - Method: `GET`
 - Parameters:
@@ -55,7 +56,7 @@ To interact with the Muon Explorer Backend, you can make requests to the followi
   - `app` (optional): The application name to filter the request history.
 
 #### 4. Get Applications with Pagination
-- Endpoint: `/applications?page={page}&limit={limit}`
+- Endpoint: `/api/v1/applications?page={page}&limit={limit}`
 - Description: Retrieve a list of applications with pagination support.
 - Method: `GET`
 - Parameters:
@@ -63,7 +64,7 @@ To interact with the Muon Explorer Backend, you can make requests to the followi
   - `limit` (optional): The number of applications to retrieve per page.
 
 #### 5. Get Application by Name
-- Endpoint: `/applications/{app}`
+- Endpoint: `/api/v1/applications/{app}`
 - Description: Retrieve detailed information about a specific application.
 - Method: `GET`
 - Parameters:
