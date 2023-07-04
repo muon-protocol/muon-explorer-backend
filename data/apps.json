@@ -11,13 +11,71 @@
           {
             "name": "config",
             "type": "address"
+          },
+          {
+            "name": "timestamp",
+            "type": "int"
+          },
+          {
+            "name": "toBlocks",
+            "type": "str"
           }
         ],
         "examples": [
           {
             "title": "INV token price",
-            "desc": "Using this conig contract, the INV token time weighted average price can be loaded from routes on Sushiswap and Uniswap.",
-            "args": { "config": "0xb0894bd0c703EF3ee0c1E3054cABfA288762838c" }
+            "desc": "Detecting price manipulation resulted to explosion of Inverse Finance",
+            "args": {
+              "config": "0x6508E437AC539b904FA606CeF32Cb0Ce4fD051cB",
+              "timestamp": 1648897449,
+              "toBlocks": "{\"1\":14506359}"
+            }
+          },
+          {
+            "title": "DOP token price",
+            "desc": "Detecting price manipulation resulted to explosion of Ploutoz Finance",
+            "args": {
+              "config": "0xF300033c78c5F89c57E7A927A1897482413AB9a8",
+              "timestamp": 1637659447,
+              "toBlocks": "{\"56\":12886417}"
+            }
+          },
+          {
+            "title": "SELLC token price",
+            "desc": "Detecting price manipulation resulted to explosion of TrustTheTrident",
+            "args": {
+              "config": "0x299da040d91B5D1Ce7e9f2aA25f4Ee76ac3e291e",
+              "timestamp": 1683961936,
+              "toBlocks": "{\"56\":28168035}"
+            }
+          }
+        ]
+      },
+      {
+        "name": "lp_price",
+        "args": [
+          {
+            "name": "config",
+            "type": "address"
+          },
+          {
+            "name": "timestamp",
+            "type": "int"
+          },
+          {
+            "name": "toBlocks",
+            "type": "str"
+          }
+        ],
+        "examples": [
+          {
+            "title": "INV token price",
+            "desc": "Detecting price manipulation resulted to explosion of Deus Finance",
+            "args": {
+              "config": "0xeDF5Ad8Ca01C147d42Bd04713F53F692B805F3eF",
+              "timestamp": 1651113614,
+              "toBlocks": "{\"250\":37115797}"
+            }
           }
         ]
       }
@@ -41,7 +99,9 @@
           {
             "title": "Sign a hello world message",
             "desc": "This method signs the given message using the threshold signature scheme.",
-            "args": { "message": "hello world" }
+            "args": {
+              "message": "hello world"
+            }
           }
         ]
       },
@@ -90,7 +150,9 @@
           {
             "title": "Query the winner of 8th round",
             "desc": "This queries the winner of the Dibs Lottery winner of the 8th round.",
-            "args": { "roundId": 8 }
+            "args": {
+              "roundId": 8
+            }
           }
         ]
       },
@@ -135,7 +197,10 @@
           {
             "title": "BTC/USD price",
             "desc": "This loads BTC price in USD from coinbase api.",
-            "args": { "token": "btc", "unit": "USD" }
+            "args": {
+              "token": "btc",
+              "unit": "USD"
+            }
           }
         ]
       }
@@ -167,7 +232,9 @@
           {
             "title": "Get prices for a positionId",
             "desc": "This get bid and ask prices for positionId 20",
-            "args": { "positionIds": "[20]" }
+            "args": {
+              "positionIds": "[20]"
+            }
           }
         ]
       }
