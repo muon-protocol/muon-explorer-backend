@@ -69,7 +69,7 @@
         ],
         "examples": [
           {
-            "title": "INV token price",
+            "title": "DEI LP token price",
             "desc": "Detecting price manipulation resulted to explosion of Deus Finance",
             "args": {
               "config": "0xeDF5Ad8Ca01C147d42Bd04713F53F692B805F3eF",
