@@ -33,13 +33,13 @@ morgan('combined', {
 
 // custom 404
 app.use((req, res, next) => {
-    res.status(404).send("Sorry can't find that!")
+    res.status(404).send("Not found")
 })
 
 // custom error handler
 app.use((err, req, res, next) => {
     console.error(err.stack)
-    res.status(500).send('Something broke!')
+    res.status(500).send('Internal server error')
 })
 
 const PORT = process.env.PORT || 8004
@@ -47,17 +47,3 @@ const PORT = process.env.PORT || 8004
 app.listen(PORT, () => {
     console.log("Server is running on port: ", PORT)
 })
-
-// process.on('uncaughtException', err => {
-//     console.log(`Error: ${err.stack}`);
-//     console.log('Shutting down due to uncaught exception');
-//     process.exit(1)
-// })
-
-// process.on('unhandledRejection', err => {
-//     console.log(`Error: ${err.stack}`)
-//     console.log(`Shutting down the server due to unhandled Promise rejection`)
-//     server.close(() => {
-//         process.exit(1)
-//     })
-// })
