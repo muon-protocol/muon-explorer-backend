@@ -2,12 +2,13 @@ import express from 'express'
 import { db } from '../utils/db.js'
 import fs from 'fs'
 import path from 'path'
+import catchAsync from '../utils/catchAsync.js'
 
 const __dirname = process.cwd()
 
 const router = express.Router()
 
-router.get('/', async (req, res) => {
+router.get('/', catchAsync(async (req, res) => {
     let { page = 1, limit = 10, search = '' } = req.query
 
     page = parseInt(page) || 1
@@ -46,9 +47,9 @@ router.get('/', async (req, res) => {
         total,
         applications,
     })
-})
+}))
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', catchAsync(async (req, res) => {
 
     let { id } = req.params
 
@@ -85,6 +86,6 @@ router.get('/:id', async (req, res) => {
         status: 200,
         application
     })
-})
+}))
 
 export default router

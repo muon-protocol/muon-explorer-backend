@@ -1,9 +1,10 @@
 import express from 'express'
 import { db } from '../utils/db.js'
+import catchAsync from '../utils/catchAsync.js'
 
 const router = express.Router()
 
-router.get('/', async (req, res) => {
+router.get('/', catchAsync(async (req, res) => {
     let { page = 1, limit = 10, search = '', app = '' } = req.query
 
     page = parseInt(page) || 1
@@ -56,9 +57,9 @@ router.get('/', async (req, res) => {
         total,
         requests,
     })
-})
+}))
 
-router.get('/history', async (req, res) => {
+router.get('/history', catchAsync(async (req, res) => {
 
     let { range = 21, app = '' } = req.query
 
@@ -117,9 +118,9 @@ router.get('/history', async (req, res) => {
         status: 200,
         history: updatedHistory.reverse(),
     })
-})
+}))
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', catchAsync(async (req, res) => {
 
     let { id } = req.params
 
@@ -137,6 +138,6 @@ router.get('/:id', async (req, res) => {
         status: 200,
         request: requestFound
     })
-})
+}))
 
 export default router
