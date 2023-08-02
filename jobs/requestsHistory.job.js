@@ -71,7 +71,7 @@ if (parentPort) {
     // ======================================================================================
 
     const lastHistoryList = await db.collection('requests_history')
-        .find({ app: '' })
+        .find({ app: '', temp: { $exists: false } })
         .sort({ datetime: -1 })
         .limit(1)
         .toArray();
@@ -105,7 +105,7 @@ if (parentPort) {
         const promise = new Promise(async resolve => {
 
             const lastAppHistoryList = await db.collection('requests_history')
-                .find({ app: app.id })
+                .find({ app: app.id, temp: { $exists: false } })
                 .sort({ datetime: -1 })
                 .limit(1)
                 .toArray();
