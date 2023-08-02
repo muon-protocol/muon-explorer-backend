@@ -6,8 +6,7 @@ import helmet from 'helmet'
 import cors from 'cors'
 import morgan from 'morgan'
 
-import applicationsRoutes from './routes/applicationsRoutes.js'
-import requestRoutes from './routes/requestsRoutes.js'
+import routes from './routes/index.js'
 
 import { initBreeInstance } from './jobs/index.js'
 
@@ -18,12 +17,7 @@ app.use(helmet())
 app.use(cors())
 app.disable('x-powered-by')
 
-app.use('/api/v1/applications', applicationsRoutes)
-app.use('/api/v1/requests', requestRoutes)
-
-app.get("/api/v1", (req, res) => {
-    res.status(200).json({ message: "Muon Explorer V1" });
-});
+app.use('/api/v1', routes)
 
 initBreeInstance()
 

@@ -4,12 +4,17 @@ export const initBreeInstance = () => {
     const bree = new Bree({
         jobs: [
             {
-                name: 'updateRequestsHistory',
+                name: 'requestsHistory.job',
                 timeout: 0,
                 interval: '1h'
             },
             {
-                name: 'updateApplications',
+                name: 'requestsHistory2.job',
+                timeout: 0,
+                interval: '5m'
+            },
+            {
+                name: 'applications.job',
                 timeout: 0,
                 interval: '1h'
             }

@@ -1,10 +1,7 @@
-import express from 'express'
 import { db } from '../utils/db.js'
 import catchAsync from '../utils/catchAsync.js'
 
-const router = express.Router()
-
-router.get('/', catchAsync(async (req, res) => {
+export const getAllRequests = catchAsync(async (req, res) => {
     let { page = 1, limit = 10, search = '', app = '' } = req.query
 
     page = parseInt(page) || 1
@@ -57,70 +54,72 @@ router.get('/', catchAsync(async (req, res) => {
         total,
         requests,
     })
-}))
+})
 
-router.get('/history', catchAsync(async (req, res) => {
+export const getRequestsHistory = catchAsync(async (req, res) => {
 
     let { range = 21, app = '' } = req.query
 
     range = parseInt(range) || 21
 
-    let history = [] // history with desc order
+    let history = []
+    let limit = 24
+
+    if (range > 1) {
+        const todayHours = new Date().getHours()
+        const days = range - 1
+        limit = (days * 24) + todayHours
+    }
 
     history = await db.collection('requests_history')
         .find({ app })
-        .sort({ 'first_date': -1 })
-        .limit(range * 24)
-        .project({ count: 1, _id: 0, first_date: 1 })
+        .sort({ 'datetime': -1 })
+        .limit(limit)
+        .project({ _id: 0, count: 1 })
         .toArray()
 
     let newHistory = []
 
-    if (history.length) {
-        let first_item = null
-        let second_item = null
-        newHistory.push(history[0])
-        history.forEach((item, index) => {
-            first_item = item
-            second_item = history[index + 1]
-            if (second_item) {
-                const diff = ((new Date(first_item.first_date).getTime() * 1000) - (new Date(second_item.first_date).getTime() * 1000)) / 36e5
-                if (diff > 1.9) {
-                    const hours = Math.floor(diff)
-                    Array(hours).fill('').forEach(() => {
-                        newHistory.push({ count: 0 })
-                    })
-                }
-                newHistory.push(second_item)
-            }
-        })
+    history.forEach(item => {
+        newHistory.push(item.count)
+    })
 
-        const lastHistory = newHistory[0].first_date
-        const diff = ((new Date().getTime()) - (new Date(lastHistory).getTime() * 1000)) / 36e5
-        if (diff > 1) {
-            const hours = Math.floor(diff)
-            Array(hours).fill('').forEach(() => {
-                newHistory.unshift({ count: 0 })
-            })
-        }
+    if (newHistory.length < limit) {
+        const remaining = limit - newHistory.length
+        Array(remaining).fill(0).forEach(() => {
+            newHistory.push(0)
+        })
     }
 
-    let updatedHistory = newHistory.map(i => i.count).slice(1).slice(-(range * 24))
+    let fixedLengthHistory = []
 
-    if (updatedHistory.length < (range * 24)) {
-        const remaining = (range * 24) - updatedHistory.length
-        Array(remaining).fill(0).forEach(() => {
-            updatedHistory.push(0)
-        })
+    if (range > 1) {
+        const todayHours = new Date().getHours()
+        const todayArray = newHistory.slice(0, todayHours)
+        const otherDaysArray = newHistory.slice(todayHours, -1)
+
+        let array = []
+
+        const todayStats = todayArray.reduce((a, b) => a + b, 0)
+        array.push(todayStats)
+
+        for (let i = 0; i < range - 1; i++) {
+            const sum = otherDaysArray.slice(i * 24, (i * 24) + 24).reduce((a, b) => a + b, 0)
+            array.push(sum)
+        }
+        fixedLengthHistory = array.reverse()
+    }
+    else {
+        fixedLengthHistory = newHistory.reverse()
     }
 
     res.status(200).send({
         status: 200,
-        history: updatedHistory.reverse(),
+        history: fixedLengthHistory,
     })
-}))
+})
 
-router.get('/:id', catchAsync(async (req, res) => {
+export const getSingleRequest = catchAsync(async (req, res) => {
 
     let { id } = req.params
 
@@ -138,6 +137,4 @@ router.get('/:id', catchAsync(async (req, res) => {
         status: 200,
         request: requestFound
     })
-}))
-
-export default router
+})
