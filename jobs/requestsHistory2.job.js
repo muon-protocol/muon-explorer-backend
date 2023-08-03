@@ -40,7 +40,7 @@ if (parentPort) {
     const lastHistoryBasicTime = getBasicTime(lastHistory?.datetime || Date.now())
     const nowBasicTime = getBasicTime(Date.now())
 
-    const count = await db.collection('requests').countDocuments({ startedAt: { $gt: nowBasicTime }, app: '' });
+    const count = await db.collection('requests').countDocuments({ startedAt: { $gt: nowBasicTime } });
 
     if (lastHistory && lastHistoryBasicTime === nowBasicTime) {
         await db.collection('requests_history').findOneAndUpdate({ _id: lastHistory._id }, { $set: { count } })
@@ -72,7 +72,7 @@ if (parentPort) {
             const count = await db.collection('requests').countDocuments({ startedAt: { $gt: nowAppBasicTime }, app: app.id });
 
             if (lastAppHistory && lastAppHistoryBasicTime === nowAppBasicTime) {
-                await db.collection('requests_history').findOneAndUpdate({ id: lastAppHistory._id }, { $set: { count } })
+                await db.collection('requests_history').findOneAndUpdate({ _id: lastAppHistory._id }, { $set: { count } })
             }
             else {
                 await db.collection('requests_history').deleteOne({ app: app.id, temp: true })
