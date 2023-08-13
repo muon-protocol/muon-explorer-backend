@@ -2,7 +2,7 @@ import { db } from '../utils/db.js'
 import catchAsync from '../utils/catchAsync.js'
 
 export const getAllRequests = catchAsync(async (req, res) => {
-    let { page = 1, limit = 10, search = '', app = '' } = req.query
+    let { page = 1, limit = 10, search = '', app = '', spender = '' } = req.query
 
     page = parseInt(page) || 1
     limit = parseInt(limit) || 10
@@ -18,16 +18,34 @@ export const getAllRequests = catchAsync(async (req, res) => {
         gwAddress: 1,
         signatures: 1,
         startedAt: 1,
-        confirmedAt: 1
+        confirmedAt: 1,
+        'data.fee.spender.address': 1
     }
 
-    const query = { $or: [{ reqId: { $regex: search } }, { gwAddress: { $regex: search } }] }
+    const query = {
+        $or: [
+            { reqId: { $regex: search } },
+            { gwAddress: { $regex: search } },
+            { 'data.fee.spender.address': { $regex: search } }
+        ]
+    }
     const queryWithAppId = { app, ...query }
 
     let requests = []
     let total = 0
 
-    if (search) {
+    if (spender) {
+        requests = await col
+            .find({ 'data.fee.spender.address': spender })
+            .sort({ 'startedAt': -1 })
+            .limit(limit)
+            .skip(skip)
+            .project(projections)
+            .toArray()
+
+        total = await col.countDocuments({ 'data.fee.spender.address': spender })
+    }
+    else if (search) {
         requests = await col
             .find(app ? queryWithAppId : query)
             .sort({ 'startedAt': -1 })
