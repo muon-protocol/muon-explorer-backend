@@ -1,8 +1,21 @@
 import { db } from '../utils/db.js'
 import catchAsync from '../utils/catchAsync.js'
 
+const projections = {
+    _id: 1,
+    reqId: 1,
+    app: 1,
+    method: 1,
+    gwAddress: 1,
+    signatures: 1,
+    startedAt: 1,
+    confirmedAt: 1,
+    'data.fee.spender.address': 1
+}
+
 export const getAllRequests = catchAsync(async (req, res) => {
-    let { page = 1, limit = 10, search = '', app = '', spender = '' } = req.query
+
+    let { page = 1, limit = 10, search = '', app = '', noSpender = false } = req.query
 
     page = parseInt(page) || 1
     limit = parseInt(limit) || 10
@@ -10,23 +23,13 @@ export const getAllRequests = catchAsync(async (req, res) => {
 
     const col = db.collection('requests')
 
-    const projections = {
-        _id: 1,
-        reqId: 1,
-        app: 1,
-        method: 1,
-        gwAddress: 1,
-        signatures: 1,
-        startedAt: 1,
-        confirmedAt: 1,
-        'data.fee.spender.address': 1
-    }
+    const spenderQuery = !Boolean(noSpender) ? [{ 'data.fee.spender.address': { $regex: search } }] : []
 
     const query = {
         $or: [
             { reqId: { $regex: search } },
             { gwAddress: { $regex: search } },
-            { 'data.fee.spender.address': { $regex: search } }
+            ...spenderQuery
         ]
     }
     const queryWithAppId = { app, ...query }
@@ -34,18 +37,7 @@ export const getAllRequests = catchAsync(async (req, res) => {
     let requests = []
     let total = 0
 
-    if (spender) {
-        requests = await col
-            .find({ 'data.fee.spender.address': spender })
-            .sort({ 'startedAt': -1 })
-            .limit(limit)
-            .skip(skip)
-            .project(projections)
-            .toArray()
-
-        total = await col.countDocuments({ 'data.fee.spender.address': spender })
-    }
-    else if (search) {
+    if (search) {
         requests = await col
             .find(app ? queryWithAppId : query)
             .sort({ 'startedAt': -1 })
@@ -89,7 +81,8 @@ export const getRequestsHistory = catchAsync(async (req, res) => {
         limit = (days * 24) + todayHours
     }
 
-    history = await db.collection('requests_history')
+    history = await db
+        .collection('requests_history')
         .find({ app })
         .sort({ 'datetime': -1 })
         .limit(limit)
@@ -134,6 +127,80 @@ export const getRequestsHistory = catchAsync(async (req, res) => {
     res.status(200).send({
         status: 200,
         history: fixedLengthHistory,
+    })
+})
+
+export const getSpenderRequests = catchAsync(async (req, res) => {
+
+    let { page = 1, limit = 10, exact = '', search = '' } = req.query
+
+    if (!exact && !search) {
+        res.status(400).send({
+            status: 400,
+            message: 'Either "exact" or "search" parameter should be present'
+        })
+        return
+    }
+
+    page = parseInt(page) || 1
+    limit = parseInt(limit) || 10
+    const skip = limit * (page - 1);
+
+    const col = db.collection('requests')
+
+    const exactQuery = { 'data.fee.spender.address': exact }
+    const searchQuery = { 'data.fee.spender.address': { $regex: search } }
+    const exactSearchQuery = {
+        ...exactQuery,
+        $or: [
+            { reqId: { $regex: search } },
+            { gwAddress: { $regex: search } }
+        ]
+    }
+
+    let requests = []
+    let total = 0
+
+    if (exact) {
+        if (search) {
+            requests = await col
+                .find(exactSearchQuery)
+                .sort({ 'startedAt': -1 })
+                .limit(limit)
+                .skip(skip)
+                .project(projections)
+                .toArray()
+
+            total = await col.countDocuments(exactSearchQuery)
+        }
+        else {
+            requests = await col
+                .find(exactQuery)
+                .sort({ 'startedAt': -1 })
+                .limit(limit)
+                .skip(skip)
+                .project(projections)
+                .toArray()
+
+            total = await col.countDocuments(exactQuery)
+        }
+    }
+    else {
+        requests = await col
+            .find(searchQuery)
+            .sort({ 'startedAt': -1 })
+            .limit(limit)
+            .skip(skip)
+            .project(projections)
+            .toArray()
+
+        total = await col.countDocuments(searchQuery)
+    }
+
+    res.status(200).send({
+        status: 200,
+        total,
+        requests,
     })
 })
 
