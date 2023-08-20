@@ -7,9 +7,9 @@ const projections = {
     app: 1,
     method: 1,
     gwAddress: 1,
-    signatures: 1,
     startedAt: 1,
     confirmedAt: 1,
+    'data.params': 1,
     'data.fee.spender.address': 1
 }
 
