@@ -1,2 +1,2 @@
 export { getAllApplications, getSingleApplication } from './applications.controller.js'
-export { getAllRequests, getRequestsHistory, getSpenderRequests, getSingleRequest } from './requests.controller.js'
+export { getAllRequests, getRequestsHistory, getSingleRequest } from './requests.controller.js'

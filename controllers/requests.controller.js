@@ -15,49 +15,41 @@ const projections = {
 
 export const getAllRequests = catchAsync(async (req, res) => {
 
-    let { page = 1, limit = 10, search = '', app = '', noSpender = false } = req.query
+    let { page = 1, limit = 10, search = '', app = '' } = req.query
 
     page = parseInt(page) || 1
     limit = parseInt(limit) || 10
     limit = limit > 50 ? 50 : limit
     const skip = limit * (page - 1);
 
-    const col = db.collection('requests')
-
-    const spenderQuery = !Boolean(noSpender) ? [{ 'data.fee.spender.address': { $regex: search } }] : []
-
     const query = {
         $or: [
-            { _id: { $regex: search } },
-            ...spenderQuery
+            { _id: search },
+            { 'data.fee.spender.address': search }
         ]
     }
-    const queryWithAppId = { app, ...query }
+
+    let finalQuery = ''
+
+    if (search) {
+        finalQuery = app ? { ...query, app } : query
+    }
+    else {
+        finalQuery = app ? { app } : {}
+    }
 
     let requests = []
     let total = 0
 
-    if (search) {
-        requests = await col
-            .find(app ? queryWithAppId : query)
-            .sort({ 'startedAt': -1 })
-            .limit(limit)
-            .skip(skip)
-            .project(projections)
-            .toArray()
-
-        total = await col.countDocuments(app ? queryWithAppId : query)
-    }
-    else {
-        requests = await col
-            .find(app ? { app } : {})
-            .sort({ 'startedAt': -1 })
-            .limit(limit)
-            .skip(skip)
-            .project(projections)
-            .toArray()
-        total = await col.countDocuments(app ? { app } : {})
-    }
+    requests = await db
+        .collection('requests')
+        .find(finalQuery)
+        .sort({ 'startedAt': -1 })
+        .limit(limit)
+        .skip(skip)
+        .project(projections)
+        .toArray()
+    total = await db.collection('requests').countDocuments(finalQuery)
 
     res.status(200).send({
         status: 200,
@@ -128,80 +120,6 @@ export const getRequestsHistory = catchAsync(async (req, res) => {
     res.status(200).send({
         status: 200,
         history: fixedLengthHistory,
-    })
-})
-
-export const getSpenderRequests = catchAsync(async (req, res) => {
-
-    let { page = 1, limit = 10, exact = '', search = '' } = req.query
-
-    if (!exact && !search) {
-        res.status(400).send({
-            status: 400,
-            message: 'Either "exact" or "search" parameter should be present'
-        })
-        return
-    }
-
-    page = parseInt(page) || 1
-    limit = parseInt(limit) || 10
-    limit = limit > 50 ? 50 : limit
-    const skip = limit * (page - 1);
-
-    const col = db.collection('requests')
-
-    const exactQuery = { 'data.fee.spender.address': exact }
-    const searchQuery = { 'data.fee.spender.address': { $regex: search } }
-    const exactSearchQuery = {
-        ...exactQuery,
-        $or: [
-            { _id: { $regex: search } },
-        ]
-    }
-
-    let requests = []
-    let total = 0
-
-    if (exact) {
-        if (search) {
-            requests = await col
-                .find(exactSearchQuery)
-                .sort({ 'startedAt': -1 })
-                .limit(limit)
-                .skip(skip)
-                .project(projections)
-                .toArray()
-
-            total = await col.countDocuments(exactSearchQuery)
-        }
-        else {
-            requests = await col
-                .find(exactQuery)
-                .sort({ 'startedAt': -1 })
-                .limit(limit)
-                .skip(skip)
-                .project(projections)
-                .toArray()
-
-            total = await col.countDocuments(exactQuery)
-        }
-    }
-    else {
-        requests = await col
-            .find(searchQuery)
-            .sort({ 'startedAt': -1 })
-            .limit(limit)
-            .skip(skip)
-            .project(projections)
-            .toArray()
-
-        total = await col.countDocuments(searchQuery)
-    }
-
-    res.status(200).send({
-        status: 200,
-        total,
-        requests,
     })
 })
 
