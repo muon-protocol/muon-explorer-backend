@@ -29,7 +29,6 @@ export const getAllRequests = catchAsync(async (req, res) => {
     const query = {
         $or: [
             { reqId: { $regex: search } },
-            { gwAddress: { $regex: search } },
             ...spenderQuery
         ]
     }
@@ -157,7 +156,6 @@ export const getSpenderRequests = catchAsync(async (req, res) => {
         ...exactQuery,
         $or: [
             { reqId: { $regex: search } },
-            { gwAddress: { $regex: search } }
         ]
     }
 
