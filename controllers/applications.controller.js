@@ -13,20 +13,19 @@ export const getAllApplications = catchAsync(async (req, res) => {
     limit = limit > 50 ? 50 : limit
     const skip = limit * (page - 1);
 
-    const col = db.collection('applications')
-
     const query = { $or: [{ id: { $regex: search.toLowerCase() } }] }
 
     let applications = []
     let total = 0
 
-    applications = await col
+    applications = await db
+        .collection('applications')
         .find(search ? query : {})
         .limit(limit)
         .skip(skip)
         .toArray()
 
-    total = await col.countDocuments(search ? query : {})
+    total = await db.collection('applications').countDocuments(search ? query : {})
 
     res.status(200).send({
         status: 200,
