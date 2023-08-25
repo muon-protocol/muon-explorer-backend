@@ -66,7 +66,7 @@ if (parentPort) {
     const updatePromises = correctApps.map(async app => {
         const promise = new Promise(async resolve => {
             try {
-                const { data } = await axios.get(`https://alice.muon.net/v1/?app=explorer&method=app&params[appName]=${app.id}`)
+                const { data } = await axios.get(`${process.env.NODE_BASE_URL}?app=explorer&method=app&params[appName]=${app.id}`)
                 if (data?.success) {
                     const { contexts, ...other } = data.result
                     const lastContext = contexts?.at(-1)
