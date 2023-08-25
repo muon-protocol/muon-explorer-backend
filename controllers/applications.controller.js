@@ -28,18 +28,6 @@ export const getAllApplications = catchAsync(async (req, res) => {
 
     total = await col.countDocuments(search ? query : {})
 
-    const joinPromises = applications.map(async app => {
-        const promise = new Promise(async resolve => {
-            const count = await db.collection('requests').countDocuments({ app: app.id, confirmed: true })
-            resolve({ ...app, confirmed_requests: count })
-        })
-        return promise
-    });
-
-    const allRes = await Promise.all(joinPromises)
-
-    applications = allRes
-
     res.status(200).send({
         status: 200,
         total,

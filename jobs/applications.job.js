@@ -52,6 +52,17 @@ if (parentPort) {
 
     const correctApps = await db.collection('applications').find().toArray()
 
+    const joinPromises = correctApps.map(async app => {
+        const promise = new Promise(async resolve => {
+            const count = await db.collection('requests').countDocuments({ app: app.id, confirmed: true })
+            await db.collection('applications').findOneAndUpdate({ id: app.id }, { $set: { confirmed_requests: count } })
+            resolve()
+        })
+        return promise
+    });
+
+    await Promise.all(joinPromises)
+
     const updatePromises = correctApps.map(async app => {
         const promise = new Promise(async resolve => {
             try {
@@ -60,7 +71,7 @@ if (parentPort) {
                     const { contexts, ...other } = data.result
                     const lastContext = contexts?.at(-1)
                     const values = { ...other, context: lastContext }
-                    await db.collection('applications').findOneAndUpdate({ id: app.id }, { '$set': { data: values } })
+                    await db.collection('applications').findOneAndUpdate({ id: app.id }, { $set: { data: values } })
                     resolve()
                 }
             }
