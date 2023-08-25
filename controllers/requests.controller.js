@@ -19,6 +19,7 @@ export const getAllRequests = catchAsync(async (req, res) => {
 
     page = parseInt(page) || 1
     limit = parseInt(limit) || 10
+    limit = limit > 50 ? 50 : limit
     const skip = limit * (page - 1);
 
     const col = db.collection('requests')
@@ -71,6 +72,7 @@ export const getRequestsHistory = catchAsync(async (req, res) => {
     let { range = 21, app = '' } = req.query
 
     range = parseInt(range) || 21
+    range = range > 21 ? 21 : range
 
     let history = []
     let limit = 24
@@ -144,6 +146,7 @@ export const getSpenderRequests = catchAsync(async (req, res) => {
 
     page = parseInt(page) || 1
     limit = parseInt(limit) || 10
+    limit = limit > 50 ? 50 : limit
     const skip = limit * (page - 1);
 
     const col = db.collection('requests')

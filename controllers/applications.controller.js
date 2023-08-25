@@ -10,6 +10,7 @@ export const getAllApplications = catchAsync(async (req, res) => {
 
     page = parseInt(page) || 1
     limit = parseInt(limit) || 10
+    limit = limit > 50 ? 50 : limit
     const skip = limit * (page - 1);
 
     const col = db.collection('applications')
