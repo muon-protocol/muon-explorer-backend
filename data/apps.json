@@ -1,87 +1,5 @@
 [
   {
-    "id": "twaper",
-    "name": "Twaper",
-    "fnames": ["twaper.js", "pair.js"],
-    "mostUsedMethod": "price",
-    "methods": [
-      {
-        "name": "price",
-        "args": [
-          {
-            "name": "config",
-            "type": "address"
-          },
-          {
-            "name": "timestamp",
-            "type": "int"
-          },
-          {
-            "name": "toBlocks",
-            "type": "str"
-          }
-        ],
-        "examples": [
-          {
-            "title": "INV token price",
-            "desc": "Detecting price manipulation resulted to explosion of Inverse Finance",
-            "args": {
-              "config": "0x6508E437AC539b904FA606CeF32Cb0Ce4fD051cB",
-              "timestamp": 1648897449,
-              "toBlocks": "{\"1\":14506359}"
-            }
-          },
-          {
-            "title": "DOP token price",
-            "desc": "Detecting price manipulation resulted to explosion of Ploutoz Finance",
-            "args": {
-              "config": "0xF300033c78c5F89c57E7A927A1897482413AB9a8",
-              "timestamp": 1637659447,
-              "toBlocks": "{\"56\":12886417}"
-            }
-          },
-          {
-            "title": "SELLC token price",
-            "desc": "Detecting price manipulation resulted to explosion of TrustTheTrident",
-            "args": {
-              "config": "0x299da040d91B5D1Ce7e9f2aA25f4Ee76ac3e291e",
-              "timestamp": 1683961936,
-              "toBlocks": "{\"56\":28168035}"
-            }
-          }
-        ]
-      },
-      {
-        "name": "lp_price",
-        "args": [
-          {
-            "name": "config",
-            "type": "address"
-          },
-          {
-            "name": "timestamp",
-            "type": "int"
-          },
-          {
-            "name": "toBlocks",
-            "type": "str"
-          }
-        ],
-        "examples": [
-          {
-            "title": "DEI LP token price",
-            "desc": "Detecting price manipulation resulted to explosion of Deus Finance",
-            "args": {
-              "config": "0xeDF5Ad8Ca01C147d42Bd04713F53F692B805F3eF",
-              "timestamp": 1651113614,
-              "toBlocks": "{\"250\":37115797}"
-            }
-          }
-        ]
-      }
-    ]
-  },
-  {
     "id": "tss",
     "name": "TSS",
     "fnames": ["tss-test.js"],
@@ -112,131 +30,168 @@
     ]
   },
   {
-    "id": "dibs",
-    "name": "dibs",
-    "fnames": ["dibs.js"],
+    "id": "muon_brightid",
+    "name": "Muon BrightID",
+    "fnames": ["muon_brightid.js"],
+    "mostUsedMethod": "getContextIds",
+    "methods": [
+      {
+        "name": "getContextIds",
+        "args": [
+          {
+            "name": "context",
+            "type": "string"
+          },
+          {
+            "name": "contextId",
+            "type": "string"
+          }
+        ],
+        "examples": [
+          {
+            "title": "Sample Query",
+            "desc": "Get all contextIds the BrightId user connected to this contextId has connected to Before.",
+            "args": {
+              "context": "Muon",
+              "contextId": "344e7a0490cf84c741407247292536fe921817d20b1dabe0f800222b78a70cdb"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "derand",
+    "name": "DeRand",
+    "fnames": ["derand.js"],
+    "mostUsedMethod": "random-number",
+    "methods": [
+      {
+        "name": "random-number",
+        "args": [
+          {
+            "name": "chainId",
+            "type": "str"
+          },
+          {
+            "name": "txHash",
+            "type": "str"
+          }
+        ],
+        "examples": [
+          {
+            "title": "Get random numbers for a consumer request",
+            "desc": "Get the requested random numbers for the specified transaction",
+            "args": {
+              "chainId": "59144",
+              "txHash": "0xd1556d43f6054af927ad15707ef2bbb851450d9fdf1a54be7d7e39a4c7e87660"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "unitap",
+    "name": "Unitap",
+    "fnames": ["unitap.js"],
+    "mostUsedMethod": "claim-token",
+    "methods": [
+      {
+        "name": "claim-token",
+        "args": [
+          {
+            "name": "claimId",
+            "type": "str"
+          }
+        ],
+        "examples": [
+          {
+            "title": "Get token claim signature",
+            "desc": "Get the signature for the specified claimId",
+            "args": {
+              "chainId": "3739"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "stage_unitap",
+    "name": "Unitap Stage",
+    "fnames": ["stage_unitap.js"],
+    "mostUsedMethod": "claim-token",
+    "methods": [
+      {
+        "name": "claim-token",
+        "args": [
+          {
+            "name": "claimId",
+            "type": "str"
+          }
+        ],
+        "examples": [
+          {
+            "title": "Get token claim signature",
+            "desc": "Get the signature for the specified claimId",
+            "args": {
+              "chainId": "3739"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "thenaTrade2Earn",
+    "name": "Thena trade",
+    "fnames": ["thenaTrade2Earn.js"],
+    "mostUsedMethod": "userVolume",
+    "methods": [
+      {
+        "name": "userVolume",
+        "args": [
+          {
+            "name": "projectId",
+            "type": "str"
+          },
+          {
+            "name": "user",
+            "type": "str"
+          },
+          {
+            "name": "pair",
+            "type": "str"
+          },
+          {
+            "name": "day",
+            "type": "str"
+          }
+        ],
+        "examples": []
+      }
+    ]
+  },
+  {
+    "id": "vibe",
+    "name": "vibe",
+    "fnames": ["vibe.js"],
     "mostUsedMethod": "claim",
     "methods": [
       {
         "name": "claim",
         "args": [
           {
-            "name": "user",
-            "type": "address"
-          },
-          {
-            "name": "token",
-            "type": "address"
-          },
-          {
-            "name": "time",
-            "type": "int"
-          },
-          {
-            "name": "sign",
-            "type": "str"
-          }
-        ]
-      },
-      {
-        "name": "lotteryWinner",
-        "args": [
-          {
-            "name": "roundId",
-            "type": "int"
-          }
-        ],
-        "examples": [
-          {
-            "title": "Query the winner of 8th round",
-            "desc": "This queries the winner of the Dibs Lottery winner of the 8th round.",
-            "args": {
-              "roundId": 8
-            }
-          }
-        ]
-      },
-      {
-        "name": "topLeaderBoardN",
-        "args": [
-          {
-            "name": "n",
-            "type": "int"
-          },
-          {
-            "name": "day",
-            "type": "int"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "id": "simple_oracle",
-    "name": "Simple Oracle",
-    "fnames": ["simple_oracle.js"],
-    "mostUsedMethod": "price",
-    "methods": [
-      {
-        "name": "eth-price",
-        "args": []
-      },
-      {
-        "name": "price",
-        "args": [
-          {
-            "name": "token",
+            "name": "nftId",
             "type": "str"
           },
           {
-            "name": "unit",
+            "name": "timestamp",
             "type": "str"
           }
         ],
-        "examples": [
-          {
-            "title": "BTC/USD price",
-            "desc": "This loads BTC price in USD from coinbase api.",
-            "args": {
-              "token": "btc",
-              "unit": "USD"
-            }
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "id": "v3_oracle",
-    "name": "V3 Oracle",
-    "fnames": ["v3_oracle.js"],
-    "mostUsedMethod": "signature",
-    "methods": [
-      {
-        "name": "signature",
-        "args": [
-          {
-            "name": "positionIds",
-            "type": "str"
-          },
-          {
-            "name": "bidPrices",
-            "type": "str"
-          },
-          {
-            "name": "askPrices",
-            "type": "str"
-          }
-        ],
-        "examples": [
-          {
-            "title": "Get prices for a positionId",
-            "desc": "This get bid and ask prices for positionId 20",
-            "args": {
-              "positionIds": "[20]"
-            }
-          }
-        ]
+        "examples": []
       }
     ]
   }
