@@ -196,7 +196,7 @@
     ]
   },
   {
-    "id": "layerzero_dvn",
+    "id": "LayerZero DVN",
     "name": "layerzero_dvn",
     "fnames": ["layerzero_dvn.js"],
     "mostUsedMethod": "verify",
