@@ -194,5 +194,36 @@
         "examples": []
       }
     ]
+  },
+  {
+    "id": "layerzero_dvn",
+    "name": "layerzero_dvn",
+    "fnames": ["layerzero_dvn.js"],
+    "mostUsedMethod": "verify",
+    "methods": [
+      {
+        "name": "verify",
+        "args": [
+          {
+            "name": "jobId",
+            "type": "str"
+          },
+          {
+            "name": "network",
+            "type": "str"
+          }
+        ],
+        "examples": [
+          {
+            "title": "Verify a LayerZero job on MuonDVN",
+            "desc": "Verify the specified job on target network",
+            "args": {
+              "jobId": "15",
+              "network": "bsctest"
+            }
+          }
+        ]
+      }
+    ]
   }
 ]
