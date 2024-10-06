@@ -262,7 +262,7 @@
   {
     "id": "factGPT_dispute",
     "name": "FactGPT Dispute",
-    "fnames": ["factGPT-dispute.js"],
+    "fnames": ["factGPT_dispute.js"],
     "mostUsedMethod": "proposal-validation",
     "methods": [
       {
