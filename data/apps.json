@@ -225,5 +225,64 @@
         ]
       }
     ]
+  },
+  {
+    "id": "factGPT",
+    "name": "FactGPT",
+    "fnames": ["factGPT.js"],
+    "mostUsedMethod": "verify",
+    "methods": [
+      {
+        "name": "verify",
+        "args": [
+          {
+            "name": "question",
+            "type": "str"
+          }
+        ],
+        "examples": [
+          {
+            "title": "Was Germany the winner of wc2014?",
+            "desc": "returns true/false",
+            "args": {
+              "question": "Was germany the winner of wc2014?"
+            }
+          },
+          {
+            "title": "Was Trump the winner of the US election in 2024?",
+            "desc": "returns true/false",
+            "args": {
+              "question": "Was Trump the winner of the US election in 2024?"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "factGPT_dispute",
+    "name": "FactGPT Dispute",
+    "fnames": ["factGPT-dispute.js"],
+    "mostUsedMethod": "proposal-validation",
+    "methods": [
+      {
+        "name": "proposal-validation",
+        "args": [
+          {
+            "name": "proposalId",
+            "type": "str"
+          }
+        ],
+        "examples": [
+          {
+            "title": "Verify dispute proposal",
+            "desc": "Check if the proposal is a valid dispute snapshot proposal",
+            "args": {
+              "proposalId": "0x1b22a7d011a06d168cb76a119746662e086145b29b74e64bb545f1e7cc5143cb"
+            }
+          }
+        ]
+      }
+    ]
   }
 ]
