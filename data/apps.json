@@ -282,6 +282,24 @@
             }
           }
         ]
+      },
+      {
+        "name": "proposal-result",
+        "args": [
+          {
+            "name": "proposalId",
+            "type": "str"
+          }
+        ],
+        "examples": [
+          {
+            "title": "Get proposal result",
+            "desc": "Check if the dispute proposal is accepted or not",
+            "args": {
+              "proposalId": "0x1b22a7d011a06d168cb76a119746662e086145b29b74e64bb545f1e7cc5143cb"
+            }
+          }
+        ]
       }
     ]
   }
