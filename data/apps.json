@@ -302,5 +302,36 @@
         ]
       }
     ]
+  },
+  {
+    "id": "pion_tss_reward_oracle",
+    "name": "PION staking reward",
+    "fnames": ["pion_tss_reward_oracle.js"],
+    "mostUsedMethod": "reward",
+    "methods": [
+      {
+        "name": "reward",
+        "args": [
+          {
+            "name": "stakerAddress",
+            "type": "str"
+          },
+          {
+            "name": "blockNumber",
+            "type": "str"
+          }
+        ],
+        "examples": [
+          {
+            "title": "Get reward",
+            "desc": "Get signature to claim rewards",
+            "args": {
+              "stakerAddress": "0x84B81987f6CA3Cde2A50dAca42a58A132099C731",
+              "blockNumber": 42933587
+            }
+          }
+        ]
+      }
+    ]
   }
 ]
