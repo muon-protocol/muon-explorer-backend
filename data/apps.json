@@ -256,6 +256,31 @@
             }
           }
         ]
+      },
+      {
+        "name": "verifyRealtime",
+        "args": [
+          {
+            "name": "question",
+            "type": "str"
+          }
+        ],
+        "examples": [
+          {
+            "title": "Was Germany the winner of wc2014?",
+            "desc": "returns true/false",
+            "args": {
+              "question": "Was germany the winner of wc2014?"
+            }
+          },
+          {
+            "title": "Was Trump the winner of the US election in 2024?",
+            "desc": "returns true/false",
+            "args": {
+              "question": "Was Trump the winner of the US election in 2024?"
+            }
+          }
+        ]
       }
     ]
   },
