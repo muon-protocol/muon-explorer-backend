@@ -25,7 +25,7 @@ export const getAllApplications = catchAsync(async (req, res) => {
         .skip(skip)
         .toArray()
 
-    total = await db.collection('applications').countDocuments(search ? query : {})
+    total = await db.collection('applications').count(search ? query : {})
 
     res.status(200).send({
         status: 200,
