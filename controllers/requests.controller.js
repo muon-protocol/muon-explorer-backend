@@ -49,7 +49,7 @@ export const getAllRequests = catchAsync(async (req, res) => {
         .skip(skip)
         .project(projections)
         .toArray()
-    total = await db.collection('requests').countDocuments(finalQuery)
+    total = await db.collection('requests').count(finalQuery)
 
     res.status(200).send({
         status: 200,
